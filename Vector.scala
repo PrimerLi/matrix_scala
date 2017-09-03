@@ -1,14 +1,10 @@
-import scala.collection.mutable.ListBuffer
+import scala.collection.mutable.ArrayBuffer
 import scala.math._
 
 class Vector
 {
     private var len: Int = 0
-    private var array: ListBuffer[Double] = new ListBuffer[Double]()
-    private def f(a: Double): Boolean = 
-    {
-        return true
-    }
+    private var array: ArrayBuffer[Double] = new ArrayBuffer[Double]()
     
     def this(len: Int)
     {
@@ -20,10 +16,10 @@ class Vector
         }
     }
 
-    def this(a: ListBuffer[Double])
+    def this(a: ArrayBuffer[Double])
     {
         this()
-        this.len = a.count(f)
+        this.len = a.size
         for (i <- 0 to len - 1)
         {
             this.array.append(a(i))
@@ -67,6 +63,11 @@ class Vector
         return result
     }
 
+    def * (factor: Double): Vector = 
+    {
+        return this.scale(factor)
+    }
+
     def innerProduct(vector: Vector): Double = 
     {
         if (vector.len != this.len)
@@ -80,6 +81,11 @@ class Vector
             result = result + vector.array(i)*this.array(i)
         }
         return result
+    }
+
+    def * (vector: Vector): Double = 
+    {
+        return this.innerProduct(vector)
     }
 
     def norm(): Double = 
@@ -133,6 +139,11 @@ class Vector
         return result
     }
 
+    def + (vector: Vector): Vector = 
+    {
+        return this.add(vector)
+    }
+
     def subtract(vector: Vector): Vector = 
     {
         if (this.len != vector.len)
@@ -146,6 +157,11 @@ class Vector
             result.array(i) = this.array(i) - vector.array(i)
         }
         return result
+    }
+
+    def - (vector: Vector): Vector = 
+    {
+        return this.subtract(vector)
     }
 
     def getElement(index: Int): Double = 
@@ -198,3 +214,4 @@ class Vector
         return s
     }
 }
+

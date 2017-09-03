@@ -1,11 +1,11 @@
-import scala.collection.mutable.ListBuffer
+import scala.collection.mutable.ArrayBuffer
 import scala.math._
 import scala.collection.immutable.Range
 import scala.util.control.Breaks._
 
 class Matrix
 {
-    private var matrix: ListBuffer[ListBuffer[Double]] = new ListBuffer[ListBuffer[Double]]()
+    private var matrix: ArrayBuffer[ArrayBuffer[Double]] = new ArrayBuffer[ArrayBuffer[Double]]()
     private var row: Int = 0
     private var col: Int = 0
 
@@ -21,7 +21,7 @@ class Matrix
         this.col = col
         for (i <- 0 to row - 1)
         {
-            var list:ListBuffer[Double] = new ListBuffer[Double]()
+            var list:ArrayBuffer[Double] = new ArrayBuffer[Double]()
             for (j <- 0 to col - 1)
             {
                 list.append(0)
@@ -29,25 +29,15 @@ class Matrix
             matrix.append(list)
         }
     }
-    
-    private def f(a: Double): Boolean = 
-    {
-        return true
-    }
 
-    private def f(a: ListBuffer[Double]): Boolean = 
-    {
-        return true
-    }
-
-    def this(parameter: ListBuffer[ListBuffer[Double]])
+    def this(parameter: ArrayBuffer[ArrayBuffer[Double]])
     {
         this()
-        this.row = parameter.count(f)
-        this.col = parameter(0).count(f)
+        this.row = parameter.size
+        this.col = parameter(0).size
         for (i <- 0 to row - 1)
         {
-            var list: ListBuffer[Double] = new ListBuffer[Double]()
+            var list: ArrayBuffer[Double] = new ArrayBuffer[Double]()
             for (j <- 0 to col - 1)
             {
                 list.append(parameter(i)(j))
@@ -101,6 +91,8 @@ class Matrix
         return result
     }
 
+    def + (that: Matrix): Matrix = this.add(that)
+
     def subtract(that: Matrix): Matrix = 
     {
         if (this.row != that.row || this.col != that.col)
@@ -118,6 +110,8 @@ class Matrix
         }
         return result
     }
+
+    def - (that: Matrix) = this.subtract(that)
 
     def product(that: Matrix): Matrix = 
     {
@@ -142,6 +136,8 @@ class Matrix
         return result
     }
 
+    def * (that: Matrix): Matrix = this.product(that)
+
     def product(that: Vector): Vector = 
     {
         if (this.col != that.getLength())
@@ -161,6 +157,8 @@ class Matrix
         }
         return  result
     }
+
+    def * (that: Vector): Vector = this.product(that)
 
     def getRow(): Int = 
     {
@@ -220,6 +218,8 @@ class Matrix
         return result
     }
 
+    def * (factor: Double): Matrix = this.scale(factor)
+
     def transpose():Matrix = 
     {
         var result:Matrix = new Matrix(this.col, this.row)
@@ -248,7 +248,7 @@ class Matrix
         var dimension = this.row
         var Q: Matrix = new Matrix(dimension, dimension)
         var R: Matrix = new Matrix(dimension, dimension)
-        var columns: ListBuffer[Vector] = new ListBuffer[Vector]()
+        var columns: ArrayBuffer[Vector] = new ArrayBuffer[Vector]()
         for (j <- 0 to dimension-1)
         {
             var temp: Vector = new Vector(dimension)
@@ -258,7 +258,7 @@ class Matrix
             }
             columns.append(temp)
         }
-        //var orthonormalized: ListBuffer[Vector] = new ListBuffer[Vector]()
+        //var orthonormalized: ArrayBuffer[Vector] = new ArrayBuffer[Vector]()
         for (i <- 0 to dimension - 1)
         {
             var projection: Vector = new Vector(dimension)
@@ -385,7 +385,7 @@ class Matrix
         }
         var dimension: Int = this.row
         var eigenvalues: Vector = new Vector(dimension)
-        var qMatrices: ListBuffer[Matrix] = new ListBuffer[Matrix]()
+        var qMatrices: ArrayBuffer[Matrix] = new ArrayBuffer[Matrix]()
         var iterationMax:Int = 30
         var count: Int = 0
         for (i <- 0 to dimension - 1)
@@ -421,7 +421,7 @@ class Matrix
         {
             return true
         }
-        for (i <- 0 to qMatrices.count(f) - 1)
+        for (i <- 0 to qMatrices.size - 1)
         {
             oMatrix = oMatrix.product(qMatrices(i))
         }
