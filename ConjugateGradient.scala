@@ -50,13 +50,14 @@ object ConjugateGradient
                 x = x + alpha*p
                 r1 = r0 - alpha*(A*p)
                 error = r1.norm()
-                println("count = " + count + ", error = " + error)
+                //println("count = " + count + ", error = " + error)
                 if (error < eps) break
                 beta = r1*r1/(r0*r0)
                 p = r1 + beta*p
                 r0 = r1
             }
         }
+        //println("A*x - b = " + (A*x - b).norm())
         return x
     }
 
@@ -69,6 +70,13 @@ object ConjugateGradient
         }
         val dimension = args(0).toInt
         val A = createPositiveDefiniteMatrix(dimension)
+        /*for (i <- 0 to dimension - 1)
+        {
+            for (j <- 0 to dimension - 1)
+            {
+                A.setElement(i, j, -A.getElement(i, j))
+            }
+        }*/
         println("A = ")
         println(A)
         val b = new Vector(dimension)

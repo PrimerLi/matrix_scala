@@ -78,6 +78,8 @@ class Matrix
         if (this.row != that.row || this.col != that.col)
         {
             println("Matrix dimensions are incompatible. ")
+            println(this.row + "  " + this.col)
+            println(that.row + "  " + that.col)
             System.exit(-1)
         }
         var result: Matrix = new Matrix(this.row, this.col)
@@ -98,6 +100,8 @@ class Matrix
         if (this.row != that.row || this.col != that.col)
         {
             println("Matrix dimensions are incompatible. ")
+            println(this.row + "  " + this.col)
+            println(that.row + "  " + that.col)
             System.exit(-1)
         }
         var result: Matrix = new Matrix(this.row, this.col)
@@ -115,9 +119,11 @@ class Matrix
 
     def product(that: Matrix): Matrix = 
     {
-        if (this.col != that.col)
+        if (this.col != that.row)
         {
             println("Matrix dimensions are incompatible. ")
+            println(this.row + "  " + this.col)
+            println(that.row + "  " + that.col)
             System.exit(-1)
         }
         var result: Matrix = new Matrix(this.row, that.col)
